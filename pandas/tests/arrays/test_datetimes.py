@@ -37,6 +37,14 @@ class TestDatetimeArrayComparisons(object):
         arr = array(['2015-02-04T00:00:00.000000000', 
             '2016-03-05T00:00:00.000000000'], dtype='datetime64[ns]')
         assert res == arr
+        
+    def test_to_datetime_box_True_utc(self):
+        df = pd.DataFrame({'year': [2015, 2016], 
+            'month': [2, 3], 'day': [4, 5]})
+        res = pd.to_datetime(df, box=True)
+        assert isinstance(res, pd.DatetimeIndex) is True
+        res = pd.to_datetime(df, utc=True)
+        assert isinstance(res, pd.DatetimeIndex) is True
 
     def test_cmp_dt64_arraylike_tznaive(self, all_compare_operators):
         # arbitrary tz-naive DatetimeIndex
